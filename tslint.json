@@ -1,0 +1,46 @@
+{
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "callable-types": true,
+    "class-name": true,
+    "comment-format": [
+      true,
+      "check-space"
+    ],
+    "curly": true,
+    "import-blacklist": [
+      true,
+      "rxjs"
+    ],
+    "import-spacing": true,
+    "indent": [
+      true,
+      "tabs"
+    ],
+    "interface-name": [true, "never-prefix"],
+    "interface-over-type-literal": true,
+    "label-position": true,
+    "max-line-length": [
+      true,
+      140
+    ],
+    "member-access": [true, "no-public"],
+    "no-console": [true, "warn"],
+    "no-duplicate-variable": true,
+    "no-empty": [true, "warn"],
+    "no-unused-variable": true,
+    "object-literal-sort-keys": false,
+    "ordered-imports": [
+      true, {
+        "grouped-imports": true
+      }
+    ],
+    "quotemark": [
+      true,
+      "double"
+    ],
+    "trailing-comma": false,
+  }
+}
