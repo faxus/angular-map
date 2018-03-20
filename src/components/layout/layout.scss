@@ -2,3 +2,8 @@
 body {
 	color: #172781;
 }
+
+map > div {
+	width: 100%;
+	height: calc(100vh - 100px); // TODO: replace 145px with $navbar-height
+}

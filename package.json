@@ -4,8 +4,9 @@
   "description": "Angular + Webpack + SASS",
   "main": "app.jsx",
   "scripts": {
-    "start": "set NODE_ENV=development&& webpack-dev-server --hot",
+    "start": "npm run lint && set NODE_ENV=development&& webpack-dev-server --hot",
     "build": "set NODE_ENV=development&& webpack",
+    "lint": "tslint --project tsconfig.json",
     "test": "karma start"
   },
   "keywords": [],
@@ -20,6 +21,7 @@
     "@angular/platform-browser": "^5.2.4",
     "@angular/platform-browser-dynamic": "^5.2.4",
     "@angular/router": "^5.2.4",
+    "@types/googlemaps": "^3.30.8",
     "core-js": "^2.5.3",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.20"

@@ -41,6 +41,6 @@
       true,
       "double"
     ],
-    "trailing-comma": false,
+    "trailing-comma": false
   }
 }
