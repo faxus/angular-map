@@ -30,8 +30,41 @@ export class MapComponent implements OnInit, OnChanges {
 
 	ngOnChanges(changes: SimpleChanges) {
 		console.log("something changed", changes);
-		if (!changes.user || !this.marker) { return; }
-		this.marker.setIcon(this.updateIcon());
+		// if (!changes.user || !this.marker) { return; }
+		// this.marker.setIcon(this.updateIcon());
+	}
+
+	setMarker(location: google.maps.LatLng) {
+		if (!this.marker) {
+			this.marker = new google.maps.Marker({
+				position: location,
+				map: this.map,
+				icon: this.getIcon(),
+				optimized: false
+			});
+		} else {
+			this.marker.setPosition(location);
+		}
+
+		const myoverlay = new google.maps.OverlayView();
+		myoverlay.draw = () => {
+			myoverlay.getPanes().markerLayer.id = "userPositionMarker";
+		};
+		myoverlay.setMap(this.map);
+
+	}
+
+	getIcon(): google.maps.Icon {
+		const markerSize = 40;
+		const url = this.user.imageUrl !== "" ? this.user.imageUrl : "";
+		const size = new google.maps.Size(markerSize, markerSize);
+		const anchor = new google.maps.Point(markerSize / 2, markerSize / 2);
+		return {
+			url: this.user.imageUrl,
+			size,
+			scaledSize: size,
+			anchor
+		};
 	}
 
 	findUser() {
@@ -48,33 +81,6 @@ export class MapComponent implements OnInit, OnChanges {
 		const location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 		this.map.panTo(location);
 		this.setMarker(location);
-	}
-
-	setMarker(location: google.maps.LatLng) {
-		if (!this.marker) {
-			this.marker = new google.maps.Marker({
-				position: location,
-				map: this.map,
-				optimized: false
-			});
-		} else {
-			this.marker.setPosition(location);
-		}
-		if (this.user) {
-			this.marker.setIcon(this.updateIcon());
-		}
-	}
-
-	updateIcon(): any {
-		const url = this.user.imageUrl !== "" ? this.user.imageUrl : "";
-		const size = this.user.imageUrl !== "" ? new google.maps.Size(40, 40) : new google.maps.Size(20, 20);
-		const anchor = this.user.imageUrl !== "" ? new google.maps.Point(20, 20) : new google.maps.Point(10, 10);
-		return {
-			url,
-			size,
-			scaledSize: size,
-			anchor
-		};
 	}
 
 }
