@@ -17,7 +17,7 @@ import { appRoutes } from "./app.routes";
 	imports: [
 		RouterModule.forRoot(
 			appRoutes,
-			{ enableTracing: true } // <-- debugging purposes only
+			{ enableTracing: false } // <-- set to true for debugging purposes only
 		),
 		BrowserModule,
 		FormsModule,

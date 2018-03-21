@@ -1,3 +1,9 @@
 <div class="layout">
-	<map ></map>
+	<div class="navbar">
+		<div id="signInBtn"></div>
+		<!-- <div *ngIf="user && user.isSignedIn">{{user.name}}</div> -->
+		<!-- <img *ngIf="user" src="{{user.imageUrl}}" /> -->
+		<div id="signOutBtn" (click)="signOut()">Sign out</div>
+	</div>
+	<insta-map [user]="mockedUser"></insta-map>
 </div>
