@@ -16,12 +16,8 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 	instaToken!: string;
 	mediaData!: Media[];
 	media$$!: Subscription;
-	// mockedUser: User = {
-	// 	imageUrl: "https://lh5.googleusercontent.com/-7B7Ng2-rOTg/AAAAAAAAAAI/AAAAAAAAAB0/HrR3UTeLhHo/s96-c/photo.jpg",
-	// 	name: "Fabio Anatra",
-	// 	isSignedIn: true,
-	// 	position: new google.maps.LatLng(52.3702, 4.8952)
-	// };
+	instagramLoginUrl = `https://api.instagram.com/oauth/authorize/?client_id=b6dfd87498b14a4bbd1648c094ce3b1b
+								&scope=public_content&redirect_uri=http://localhost:8080&response_type=token`;
 
 	constructor(
 		private zone: NgZone,
@@ -57,8 +53,7 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 			this.auth = gapi.auth2.init({});
 
 			this.auth.currentUser.listen((googleUser: gapi.auth2.GoogleUser) => {
-				console.log("userChanged");
-				this.zone.run(() => this.userChanged(googleUser));
+				this.zone.run(() => this.updateUser(googleUser));
 			});
 		});
 	}
@@ -68,14 +63,10 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 	}
 
 	signOut = () => {
-		this.auth.signOut().then(() => {
-			console.log("SignOut::Success");
-		},
-			(err: any) => console.error("SignOut::Failed", err)
-		);
+		this.auth.signOut();
 	}
 
-	userChanged = (googleUser: gapi.auth2.GoogleUser) => {
+	updateUser = (googleUser: gapi.auth2.GoogleUser) => {
 		const isSignedIn = this.auth.isSignedIn.get();
 		if (isSignedIn) {
 			const profile = googleUser.getBasicProfile();
@@ -113,8 +104,8 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 	getInstagram() {
 		// const instaMedia = "https://www.instagram.com/roarroads/?__a=1";
 		if (!this.instaToken) { return; }
-		// const lat = this.mockedUser.position.lat();
-		// const lng = this.mockedUser.position.lng();
+		// const lat = this.user.position.lat();
+		// const lng = this.user.position.lng();
 		// const mediaUrl = `https://api.instagram.com/v1/media/search?lat=${lat}&lng=${lng}&distance=5000&access_token=${this.instaToken}`;
 		// const recentMediaUrl = `https://api.instagram.com/v1/users/self/media/recent/?count=10&access_token=${this.instaToken}`;
 		const otherLocationUrl = `https://api.instagram.com/v1/media/search?lat=56.9608&lng=23.75&distance=5000&access_token=${this.instaToken}`;

@@ -1,12 +1,16 @@
 <div class="layout">
 	<div class="navbar">
-		<div id="signInBtn"></div>
-		<div *ngIf="user && user.name">Hi {{user.name}}!</div>
-		<span *ngIf="user && user.isSignedIn" id="signOutBtn" (click)="signOut()">Sign out</span>
-		<span>
-			<a href="https://api.instagram.com/oauth/authorize/?client_id=b6dfd87498b14a4bbd1648c094ce3b1b
-			&scope=public_content&redirect_uri=http://localhost:8080&response_type=token">InstaLogin</a>
-		</span>
+		<div class="pull-left" *ngIf="!user.isSignedIn" id="signInBtn"></div>
+		<div class="logout-btn pull-left" *ngIf="user.isSignedIn" id="signOutBtn" (click)="signOut()">
+			<i class="icon ion-power"></i>
+		</div>
+		<div class="pull-left" *ngIf="user.isSignedIn">Hi {{user.name}}!</div>
+		<div class="login-instagram-btn pull-right">
+			<a href="{{instagramLoginUrl}}">
+				<i class="icon ion-social-instagram"></i>
+				InstaLogin
+			</a>
+		</div>
 	</div>
 	<!-- <img *ngIf="user" width="40" src="{{user.imageUrl}}" /> -->
 	<insta-map [user]="user" [media]="mediaData"></insta-map>

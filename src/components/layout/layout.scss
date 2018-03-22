@@ -3,3 +3,18 @@ body {
 	color: #172781;
 }
 
+i + span{
+	margin-left: .5rem;
+}
+
+.pull-left {
+	display: inline-block;
+}
+.pull-right {
+	float: right;
+}
+
+.navbar {
+	height: 3em;
+	margin-bottom: 1em;
+}
