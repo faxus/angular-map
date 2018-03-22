@@ -23,40 +23,27 @@ export class MapComponent implements OnInit, OnChanges {
 
 	ngOnInit() {
 		const props = {
-			zoom: 10
+			zoom: 13
 		};
 		this.map = new google.maps.Map(this.gmapElement.nativeElement, props);
-		// this.findUser();
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
+		if (!this.map || !this.user) { return; }
 		if (changes.user) {
-			console.log("user updated");
+			console.log("user updated", changes.user.currentValue);
+			// update location
 			this.setLocation();
-			// set user marker
 			this.setMarker();
 		}
 		if (changes.media) {
 			// set media pins
-			console.log("media updated");
+			console.log("media updated", changes.media.currentValue);
 		}
 	}
 
-	// findUser() {
-	// 	if (navigator.geolocation) {
-	// 		navigator.geolocation.watchPosition((position: Position) => {
-	// 			this.setLocation(position);
-	// 		});
-	// 	} else {
-	// 		console.error("Geolocation is not supported by this browser.");
-	// 	}
-	// }
-
 	setLocation() {
-		// const location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-		if (!this.map || !this.user || !this.user.position) { return; }
 		this.map.panTo(this.user.position);
-		this.setMarker();
 	}
 
 	getIcon(): google.maps.Icon | google.maps.Symbol {
@@ -79,7 +66,6 @@ export class MapComponent implements OnInit, OnChanges {
 	}
 
 	setMarker() {
-		// if (!this.user ) { return; }
 		if (!this.marker) {
 			this.marker = new google.maps.Marker({
 				position: this.user.position,
@@ -89,6 +75,7 @@ export class MapComponent implements OnInit, OnChanges {
 			});
 		} else {
 			this.marker.setPosition(this.user.position);
+			this.marker.setIcon(this.getIcon());
 		}
 
 		const myoverlay = new google.maps.OverlayView();
