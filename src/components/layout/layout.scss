@@ -17,4 +17,9 @@ i + span{
 .navbar {
 	height: 3em;
 	margin-bottom: 1em;
+
+	i {
+		font-size: 40px;
+		cursor: pointer;
+	}
 }

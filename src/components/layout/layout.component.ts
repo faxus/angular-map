@@ -30,6 +30,7 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 		this.route.fragment.subscribe((fragment: string) => {
 			if (!fragment || !fragment.includes("access_token")) { return; }
 			this.instaToken = fragment.split("=")[1];
+			// this.getMedia();
 		});
 		// Start watching user position
 		this.findUser();
@@ -38,7 +39,7 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 			name: "",
 			imageUrl: "",
 			isSignedIn: false,
-			position: new google.maps.LatLng(52.3702, 4.8952)
+			position: new google.maps.LatLng(56.945853, 23.624162)
 		};
 	}
 
@@ -76,7 +77,7 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 				name: profile.getName(),
 				isSignedIn
 			};
-			this.getInstagram();
+			this.getMedia();
 		} else {
 			this.user = {
 				...this.user,
@@ -87,7 +88,7 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 		}
 	}
 
-	findUser() {
+	findUser = () => {
 		if (navigator.geolocation) {
 			navigator.geolocation.watchPosition((position: Position) => {
 				console.log("my Position:", position.coords.latitude);
@@ -95,13 +96,13 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 					...this.user,
 					position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
 				};
-		});
+			});
 		} else {
 			console.error("Geolocation is not supported by this browser.");
 		}
 	}
 
-	getInstagram() {
+	getMedia = () => {
 		// const instaMedia = "https://www.instagram.com/roarroads/?__a=1";
 		if (!this.instaToken) { return; }
 		// const lat = this.user.position.lat();
