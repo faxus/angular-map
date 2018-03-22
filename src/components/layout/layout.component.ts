@@ -1,30 +1,31 @@
-import { HttpClient } from "@angular/common/http";
 import { AfterViewInit, Component, NgZone, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { } from "@types/gapi.auth2";
-import { map } from "rxjs/operators";
+import { Subscription } from "rxjs/Subscription";
 
-import { UserData } from "data/model";
+import { Media, User } from "data/model";
+import { InstagramService } from "providers";
 
 @Component({
 	selector: "layout",
 	templateUrl: "layout.component.html"
 })
 export class LayoutComponent implements AfterViewInit, OnInit {
-	user!: UserData;
+	user!: User;
 	auth!: gapi.auth2.GoogleAuth;
 	instaToken!: string;
-	mockedUser: UserData = {
-		imageUrl: "https://lh5.googleusercontent.com/-7B7Ng2-rOTg/AAAAAAAAAAI/AAAAAAAAAB0/HrR3UTeLhHo/s96-c/photo.jpg",
-		name: "Fabio Anatra",
-		isSignedIn: true,
-		position: new google.maps.LatLng(41.397, 70.644),
-		photoUrls: []
-	};
+	mediaData!: Media[];
+	media$$!: Subscription;
+	// mockedUser: User = {
+	// 	imageUrl: "https://lh5.googleusercontent.com/-7B7Ng2-rOTg/AAAAAAAAAAI/AAAAAAAAAB0/HrR3UTeLhHo/s96-c/photo.jpg",
+	// 	name: "Fabio Anatra",
+	// 	isSignedIn: true,
+	// 	position: new google.maps.LatLng(52.3702, 4.8952)
+	// };
 
 	constructor(
 		private zone: NgZone,
-		private http: HttpClient,
+		private instaService: InstagramService,
 		private route: ActivatedRoute
 	) {
 	}
@@ -34,6 +35,15 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 			if (!fragment || !fragment.includes("access_token")) { return; }
 			this.instaToken = fragment.split("=")[1];
 		});
+		// Start watching user position
+		this.findUser();
+		// Init user object
+		this.user = {
+			name: "",
+			imageUrl: "",
+			isSignedIn: false,
+			position: new google.maps.LatLng(52.3702, 4.8952)
+		};
 	}
 
 	ngAfterViewInit() {
@@ -51,6 +61,10 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 				this.zone.run(() => this.userChanged(googleUser));
 			});
 		});
+	}
+
+	ngOnDestroy() {
+		this.media$$.unsubscribe();
 	}
 
 	signOut = () => {
@@ -71,7 +85,7 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 				name: profile.getName(),
 				isSignedIn
 			};
-			// this.getInstagram();
+			this.getInstagram();
 		} else {
 			this.user = {
 				...this.user,
@@ -80,17 +94,17 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 				isSignedIn
 			};
 		}
-		// this.findUser();
 	}
 
 	findUser() {
 		if (navigator.geolocation) {
 			navigator.geolocation.watchPosition((position: Position) => {
+				console.log("my Position:", position.coords.latitude);
 				this.user = {
 					...this.user,
 					position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
 				};
-			});
+		});
 		} else {
 			console.error("Geolocation is not supported by this browser.");
 		}
@@ -99,14 +113,19 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 	getInstagram() {
 		// const instaMedia = "https://www.instagram.com/roarroads/?__a=1";
 		if (!this.instaToken) { return; }
-		const lat = this.user.position.lat;
-		const lng = this.user.position.lng;
-		const mediaUrl = `https://api.instagram.com/v1/media/search?lat=${lat}&lng=${lng}&access_token=${this.instaToken}`;
-		this.http.get(mediaUrl).pipe(
-			map((res: any) => {
-				console.log(res);
-			})
-		);
-		// .subscribe((res) => console.log(res.json()));
+		// const lat = this.mockedUser.position.lat();
+		// const lng = this.mockedUser.position.lng();
+		// const mediaUrl = `https://api.instagram.com/v1/media/search?lat=${lat}&lng=${lng}&distance=5000&access_token=${this.instaToken}`;
+		// const recentMediaUrl = `https://api.instagram.com/v1/users/self/media/recent/?count=10&access_token=${this.instaToken}`;
+		const otherLocationUrl = `https://api.instagram.com/v1/media/search?lat=56.9608&lng=23.75&distance=5000&access_token=${this.instaToken}`;
+		this.media$$ = this.instaService.getPhotos(otherLocationUrl)
+			.subscribe(
+				(media) => {
+					this.mediaData = media;
+				},
+				(error) => {
+					console.error(error);
+				}
+			);
 	}
 }

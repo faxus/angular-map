@@ -5,9 +5,9 @@
 		<span *ngIf="user && user.isSignedIn" id="signOutBtn" (click)="signOut()">Sign out</span>
 		<span>
 			<a href="https://api.instagram.com/oauth/authorize/?client_id=b6dfd87498b14a4bbd1648c094ce3b1b
-			&redirect_uri=http://localhost:8080&response_type=token">InstaLogin</a>
+			&scope=public_content&redirect_uri=http://localhost:8080&response_type=token">InstaLogin</a>
 		</span>
 	</div>
 	<!-- <img *ngIf="user" width="40" src="{{user.imageUrl}}" /> -->
-	<insta-map [user]="mockedUser"></insta-map>
+	<insta-map [user]="user" [media]="mediaData"></insta-map>
 </div>

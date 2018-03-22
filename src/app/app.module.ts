@@ -5,7 +5,8 @@ import { HttpModule } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
-import { UI_COMPONENTS } from "../components";
+import { UI_COMPONENTS } from "components";
+import { InstagramService } from "providers";
 
 import { AppComponent } from "./app.component";
 import { appRoutes } from "./app.routes";
@@ -25,7 +26,9 @@ import { appRoutes } from "./app.routes";
 		HttpModule,
 		HttpClientModule
 	],
-	providers: [],
+	providers: [
+		InstagramService
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
