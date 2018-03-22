@@ -1,9 +1,13 @@
 <div class="layout">
 	<div class="navbar">
 		<div id="signInBtn"></div>
-		<!-- <div *ngIf="user && user.isSignedIn">{{user.name}}</div> -->
-		<!-- <img *ngIf="user" src="{{user.imageUrl}}" /> -->
-		<div id="signOutBtn" (click)="signOut()">Sign out</div>
+		<div *ngIf="user && user.name">Hi {{user.name}}!</div>
+		<span *ngIf="user && user.isSignedIn" id="signOutBtn" (click)="signOut()">Sign out</span>
+		<span>
+			<a href="https://api.instagram.com/oauth/authorize/?client_id=b6dfd87498b14a4bbd1648c094ce3b1b
+			&redirect_uri=http://localhost:8080&response_type=token">InstaLogin</a>
+		</span>
 	</div>
+	<!-- <img *ngIf="user" width="40" src="{{user.imageUrl}}" /> -->
 	<insta-map [user]="mockedUser"></insta-map>
 </div>

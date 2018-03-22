@@ -2,7 +2,7 @@
 export interface UserData {
 	name: string;
 	imageUrl: string;
-	photoUrls?: string[];
-	location?: google.maps.LatLng;
 	isSignedIn: boolean;
+	position: google.maps.LatLng;
+	photoUrls?: string[];
 }

@@ -56,7 +56,6 @@ export class MapComponent implements OnInit, OnChanges {
 
 	getIcon(): google.maps.Icon {
 		const markerSize = 40;
-		const url = this.user.imageUrl !== "" ? this.user.imageUrl : "";
 		const size = new google.maps.Size(markerSize, markerSize);
 		const anchor = new google.maps.Point(markerSize / 2, markerSize / 2);
 		return {
