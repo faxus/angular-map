@@ -2,11 +2,11 @@
 	<i class="icon ion-person"></i>
 	<span>Login</span>
 </div>
-<div class="pull-left" *ngIf="user.isSignedIn">
-	<img class="profile-image" src="{{user.imageUrl}}" />
-</div>
-<div class="logout-btn pull-left" *ngIf="user.isSignedIn" (click)="signOutClick.emit()">
+<div class="pull-left" *ngIf="user.isSignedIn" (click)="signOutClick.emit()">
 	<i class="icon ion-power"></i>
 </div>
-<div class="pull-left" *ngIf="user.isSignedIn">Hi {{user.name}}!</div>
-<instagram-media [isSignedIn]="user.isSignedIn" (mediaUpdate)="mediaUpdate.emit($event)"></instagram-media>
+<div class="welcome" *ngIf="user.isSignedIn">
+	<img class="profile-image" src="{{user.imageUrl}}" />
+	<span>Hi {{user.name}}!</span>
+</div>
+<instagram-media class="pull-right" [isSignedIn]="user.isSignedIn" (mediaUpdate)="mediaUpdate.emit($event)"></instagram-media>

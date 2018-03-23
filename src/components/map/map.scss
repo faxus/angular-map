@@ -1,27 +1,33 @@
 insta-map > div {
 	width: 100%;
-	height: calc(100vh - 100px); // TODO: replace 145px with $navbar-height
-
-	.info-window {
-		width: 220px;
-
-		.img > img {
-			width: 100%;
-		}
-
-		.caption {
-			text-align: center;
-		}
-	}
-
-	#userPositionMarker img{
-		border-radius: 50%;
-		-webkit-animation:spin 4s linear infinite;
-		-moz-animation:spin 4s linear infinite;
-		animation:spin 4s linear infinite;
-	}
-
-	@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-	@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-	@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+	height: calc(70vh);
 }
+
+.info-window {
+	width: 220px;
+
+	.img > img {
+		width: 100%;
+	}
+
+	.caption {
+		text-align: center;
+	}
+}
+
+.default-pin {
+	position: absolute;
+	font-size: 15px;
+	color: $default-pin-color;
+}
+
+#userPositionMarker img{
+	border-radius: 50%;
+	-webkit-animation:spin 4s linear infinite;
+	-moz-animation:spin 4s linear infinite;
+	animation:spin 4s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

@@ -1,18 +1,38 @@
 
 topbar {
+	background-color: $topbar-bg-color;
+	color: white;
 	display: block;
-	background-color: #fff;
-	height: 2rem;
 	margin-bottom: 1rem;
-	padding: 1rem;
+	padding: .8rem 2rem;
 
-	i {
-		font-size: 1.5rem;
+	i,
+	a > i {
+		color: white;
 		cursor: pointer;
+		font-size: 1.5rem;
 	}
+}
 
-	.profile-image {
-		border-radius: 50%;
-		width: 1.5rem;
+.welcome {
+	display: inline-block;
+	margin: 0 2rem;
+	text-align: center;
+	width: 90%;
+}
+
+.login-btn {
+	cursor: pointer;
+}
+
+.login-btn, .welcome {
+	& * {
+		vertical-align: middle;
 	}
+}
+
+.profile-image {
+	border: 2px solid white;
+	border-radius: 50%;
+	width: 2rem;
 }
