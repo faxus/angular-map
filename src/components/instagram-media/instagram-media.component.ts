@@ -21,6 +21,7 @@ import { InstagramService } from "providers";
 export class InstagramMediaComponent implements OnInit, OnChanges {
 	@Output() mediaUpdate: EventEmitter<Media[]> = new EventEmitter<Media[]>();
 	@Input() isSignedIn!: boolean;
+	@Input() position!: google.maps.LatLng;
 	instaToken: string | undefined;
 	media$$!: Subscription;
 	instagramLoginUrl = `https://api.instagram.com/oauth/authorize/?client_id=b6dfd87498b14a4bbd1648c094ce3b1b
@@ -43,7 +44,7 @@ export class InstagramMediaComponent implements OnInit, OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (changes.isSignedIn.firstChange) { return; }
+		if (changes.isSignedIn && changes.isSignedIn.firstChange) { return; }
 		if (this.isSignedIn) {
 			this.getMedia();
 		} else {
@@ -53,12 +54,10 @@ export class InstagramMediaComponent implements OnInit, OnChanges {
 
 	getMedia = () => {
 		if (!this.instaToken) { return; }
-		// const lat = this.user.position.lat();
-		// const lng = this.user.position.lng();
-		// const mediaUrl = `https://api.instagram.com/v1/media/search?lat=${lat}&lng=${lng}&distance=5000&access_token=${this.instaToken}`;
-		// const recentMediaUrl = `https://api.instagram.com/v1/users/self/media/recent/?count=10&access_token=${this.instaToken}`;
-		const testLocationUrl = `https://api.instagram.com/v1/media/search?lat=56.9608&lng=23.75&distance=5000&access_token=${this.instaToken}`;
-		this.media$$ = this.instaService.getPhotos(testLocationUrl)
+		const lat = this.position.lat();
+		const lng = this.position.lng();
+		const mediaUrl = `https://api.instagram.com/v1/media/search?lat=${lat}&lng=${lng}&distance=5000&access_token=${this.instaToken}`;
+		this.media$$ = this.instaService.getPhotos(mediaUrl)
 			.subscribe(
 				(media) => {
 					this.mediaUpdate.emit(media);

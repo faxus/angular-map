@@ -33,7 +33,6 @@ export class MapComponent implements OnInit, OnChanges {
 	ngOnChanges(changes: SimpleChanges) {
 		if (!this.map || !this.user) { return; }
 		if (changes.user) {
-			// update location
 			this.setLocation();
 			this.setUserMarker();
 			this.setMediaPins();
@@ -53,7 +52,6 @@ export class MapComponent implements OnInit, OnChanges {
 			const marker = new google.maps.Marker({
 				position: item.location,
 				map: this.map,
-				// icon: this.getIcon(),
 				optimized: true
 			});
 			this.mediaPins.push(marker);
@@ -105,8 +103,10 @@ export class MapComponent implements OnInit, OnChanges {
 		if (!this.user || !this.user.isSignedIn) {
 			return {
 				path: google.maps.SymbolPath.CIRCLE,
-				scale: 10,
-				fillColor: "blue"
+				scale: 6,
+				fillColor: "white",
+				fillOpacity: 1,
+				strokeColor: "#326bc7"
 			};
 		}
 		return {

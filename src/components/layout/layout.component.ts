@@ -24,7 +24,7 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 			name: "",
 			imageUrl: "",
 			isSignedIn: false,
-			position: new google.maps.LatLng(56.945853, 23.624162) // TODO: 52.3702, 4.8952
+			position: new google.maps.LatLng(56.9608, 23.7) // TODO: 52.3702, 4.8952
 		};
 	}
 

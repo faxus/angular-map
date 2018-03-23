@@ -9,4 +9,4 @@
 	<img class="profile-image" src="{{user.imageUrl}}" />
 	<span>Hi {{user.name}}!</span>
 </div>
-<instagram-media class="pull-right" [isSignedIn]="user.isSignedIn" (mediaUpdate)="mediaUpdate.emit($event)"></instagram-media>
+<instagram-media class="pull-right" [isSignedIn]="user.isSignedIn" [position]="user.position" (mediaUpdate)="mediaUpdate.emit($event)"></instagram-media>

@@ -9,15 +9,30 @@ Implement a small one-page application, where the user has to login with the Goo
 
 Note: Retrieve current location using JavaScript API.
 
-
 ## Installation
 
 ```
 npm i
 ```
 
-# Usage
+## Usage
 Command to start webpack-dev-server on localhost:8080
 ```
 npm run start
 ```
+
+
+### GeoLocation
+Geolocation value was a bit slow and random in my environment so I have set the initial position in Amsterdam. You will have more chances to be 5kms away from your recent Instagram posts.
+
+
+### Google and Instagram 
+- Make sure you are testing on localhost:8080 as it is the url associated to the Google and Instagram APIs.
+- Clicking on the Login button on the top right, it will update the pin on the map and get basic user info. Only after login it will be possible to get Instagram images.
+- Clicking on the Instagrm Icon on the top left, it will ask to enter the credentials and it will redirect to the page with the token attached. 
+
+
+### TODO
+- Unit testing
+- Error message and "No images" message
+
