@@ -73,7 +73,6 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 	findUser = () => {
 		if (navigator.geolocation) {
 			navigator.geolocation.watchPosition((position: Position) => {
-				console.log("my Position:", position.coords.latitude);
 				this.user = {
 					...this.user,
 					position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude)

@@ -24,7 +24,7 @@ export class MapComponent implements OnInit, OnChanges {
 
 	ngOnInit() {
 		const props = {
-			zoom: 11.5
+			zoom: 10
 		};
 		this.map = new google.maps.Map(this.gmapElement.nativeElement, props);
 		this.mediaPins = [];
@@ -33,23 +33,23 @@ export class MapComponent implements OnInit, OnChanges {
 	ngOnChanges(changes: SimpleChanges) {
 		if (!this.map || !this.user) { return; }
 		if (changes.user) {
-			console.log("user updated", changes.user.currentValue);
 			// update location
 			this.setLocation();
-			this.setMarker();
+			this.setUserMarker();
 			this.setMediaPins();
 		}
 		if (changes.media) {
-			// set media pins
-			console.log("media updated", changes.media.currentValue);
 			this.setMediaPins();
 		}
 	}
 
 	setMediaPins = () => {
-		if (!this.media) { return; }
-		this.media.map((item: Media) => {
+		if (!this.media || !this.user.isSignedIn) {
 			this.deleteMarkers();
+			return;
+		}
+		this.deleteMarkers();
+		this.media.map((item: Media) => {
 			const marker = new google.maps.Marker({
 				position: item.location,
 				map: this.map,
@@ -117,7 +117,7 @@ export class MapComponent implements OnInit, OnChanges {
 		};
 	}
 
-	setMarker = () => {
+	setUserMarker = () => {
 		if (!this.marker) {
 			this.marker = new google.maps.Marker({
 				position: this.user.position,

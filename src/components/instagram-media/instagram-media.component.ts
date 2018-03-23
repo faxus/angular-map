@@ -21,7 +21,7 @@ import { InstagramService } from "providers";
 export class InstagramMediaComponent implements OnInit, OnChanges {
 	@Output() mediaUpdate: EventEmitter<Media[]> = new EventEmitter<Media[]>();
 	@Input() isSignedIn!: boolean;
-	instaToken!: string;
+	instaToken: string | undefined;
 	media$$!: Subscription;
 	instagramLoginUrl = `https://api.instagram.com/oauth/authorize/?client_id=b6dfd87498b14a4bbd1648c094ce3b1b
 								&scope=public_content&redirect_uri=http://localhost:8080&response_type=token`;
@@ -34,16 +34,22 @@ export class InstagramMediaComponent implements OnInit, OnChanges {
 
 	ngOnInit() {
 		this.route.fragment.subscribe((fragment: string) => {
-			if (!fragment || !fragment.includes("access_token")) { return; }
-			this.instaToken = fragment.split("=")[1];
+			if (!fragment || !fragment.includes("access_token")) {
+				this.instaToken = undefined;
+			} else {
+				this.instaToken = fragment.split("=")[1];
+			}
 		});
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
+		if (changes.isSignedIn.firstChange) { return; }
 		if (this.isSignedIn) {
 			this.getMedia();
+		} else {
+			window.location.hash = "";
 		}
-}
+	}
 
 	getMedia = () => {
 		if (!this.instaToken) { return; }
@@ -55,7 +61,6 @@ export class InstagramMediaComponent implements OnInit, OnChanges {
 		this.media$$ = this.instaService.getPhotos(testLocationUrl)
 			.subscribe(
 				(media) => {
-					// this.mediaData = media;
 					this.mediaUpdate.emit(media);
 				},
 				(error) => {
