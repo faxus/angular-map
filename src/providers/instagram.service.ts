@@ -22,7 +22,11 @@ export class InstagramService {
 
 	private extractData(res: any): Media[] {
 		if (!res) { return []; }
-		return res.data.map((row: any) => {
+		// take only 10 most recent media
+		const sorted = res.data
+			.sort((a: any, b: any) => b.created_time - a.created_time)
+			.slice(0, 10);
+		return sorted.map((row: any) => {
 			return {
 				id: row.id,
 				imageUrl: row.images.low_resolution.url,
