@@ -44,11 +44,11 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 	}
 
 	ngAfterViewInit() {
-		gapi.signin2.render(
-			"signInBtn",
-			{
-				theme: "dark"
-			});
+		// gapi.signin2.render(
+		// 	"signInBtn",
+		// 	{
+		// 		theme: "dark"
+		// 	});
 
 		gapi.load("auth2", () => {
 			this.auth = gapi.auth2.init({});
@@ -63,6 +63,10 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 		this.media$$.unsubscribe();
 	}
 
+	signIn = () => {
+		this.auth.signIn();
+	}
+
 	signOut = () => {
 		this.auth.signOut();
 	}
@@ -74,7 +78,7 @@ export class LayoutComponent implements AfterViewInit, OnInit {
 			this.user = {
 				...this.user,
 				imageUrl: profile.getImageUrl(),
-				name: profile.getName(),
+				name: profile.getGivenName(),
 				isSignedIn
 			};
 			this.getMedia();

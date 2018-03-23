@@ -1,6 +1,8 @@
 
 body {
-	color: #172781;
+	color: #202020;
+	background-color: #202020;
+	margin: 0;
 }
 
 i + span{
@@ -15,11 +17,22 @@ i + span{
 }
 
 .navbar {
-	height: 3em;
-	margin-bottom: 1em;
+	background-color: #fff;
+	height: 2rem;
+	margin-bottom: 1rem;
+	padding: 1rem;
 
 	i {
-		font-size: 40px;
+		font-size: 1.5rem;
 		cursor: pointer;
 	}
+
+	.profile-image {
+		border-radius: 50%;
+		width: 1.5rem;
+	}
+}
+
+.map-container {
+	padding: 0 13%;
 }

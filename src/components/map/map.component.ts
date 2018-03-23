@@ -20,12 +20,14 @@ export class MapComponent implements OnInit, OnChanges {
 	@Input() media!: Media[];
 	map!: google.maps.Map;
 	marker!: google.maps.Marker;
+	mediaPins!: google.maps.Marker[];
 
 	ngOnInit() {
 		const props = {
 			zoom: 11.5
 		};
 		this.map = new google.maps.Map(this.gmapElement.nativeElement, props);
+		this.mediaPins = [];
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
@@ -35,6 +37,7 @@ export class MapComponent implements OnInit, OnChanges {
 			// update location
 			this.setLocation();
 			this.setMarker();
+			this.setMediaPins();
 		}
 		if (changes.media) {
 			// set media pins
@@ -44,21 +47,51 @@ export class MapComponent implements OnInit, OnChanges {
 	}
 
 	setMediaPins = () => {
+		if (!this.media) { return; }
 		this.media.map((item: Media) => {
+			this.deleteMarkers();
 			const marker = new google.maps.Marker({
 				position: item.location,
 				map: this.map,
 				// icon: this.getIcon(),
-				optimized: false
+				optimized: true
 			});
-			// Create the image popup to show on click
-			// const infowindow = new google.maps.InfoWindow({
-			// 	content: "Hello World!"
-			// });
-			// infowindow.open(map, marker);
+			this.mediaPins.push(marker);
 
-			// Add click event listener
+			const contentString = `<div class="info-window">
+			<div class="img"><img src="${item.imageUrl}" /></div>
+			<div class="caption">${item.caption}</div>
+			</div>`;
+			const infowindow = new google.maps.InfoWindow({
+				content: contentString
+			});
+			marker.addListener("click", () => {
+				infowindow.open(this.map, marker);
+			});
 		});
+		this.showMarkers();
+	}
+
+	setMapOnAll = (map: google.maps.Map | null) => {
+		this.mediaPins.forEach((item: google.maps.Marker) => {
+			item.setMap(map);
+		});
+	}
+
+	// Removes the markers from the map, but keeps them in the array.
+	clearMarkers = () => {
+		this.setMapOnAll(null);
+	}
+
+	// Shows any markers currently in the array.
+	showMarkers = () => {
+		this.setMapOnAll(this.map);
+	}
+
+	// Deletes all markers in the array by removing references to them.
+	deleteMarkers = () => {
+		this.clearMarkers();
+		this.mediaPins = [];
 	}
 
 	setLocation = () => {

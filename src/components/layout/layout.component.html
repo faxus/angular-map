@@ -1,16 +1,23 @@
 <div class="layout">
 	<div class="navbar">
-		<div class="pull-left" *ngIf="!user.isSignedIn" id="signInBtn"></div>
-		<div class="logout-btn pull-left" *ngIf="user.isSignedIn" id="signOutBtn" (click)="signOut()">
+		<div class="login-btn pull-left" *ngIf="!user.isSignedIn" (click)="signIn()">
+			<i class="icon ion-person"></i>
+			<span>Login</span>
+		</div>
+		<div class="pull-left" *ngIf="user.isSignedIn">
+			<img class="profile-image" src="{{user.imageUrl}}" />
+		</div>
+		<div class="logout-btn pull-left" *ngIf="user.isSignedIn" (click)="signOut()">
 			<i class="icon ion-power"></i>
 		</div>
 		<div class="pull-left" *ngIf="user.isSignedIn">Hi {{user.name}}!</div>
-		<div class="login-instagram-btn pull-right">
+		<div class="login-instagram-btn pull-right" *ngIf="!instaToken && user.isSignedIn">
 			<a href="{{instagramLoginUrl}}">
 				<i class="icon ion-social-instagram"></i>
 			</a>
 		</div>
 	</div>
-	<!-- <img *ngIf="user" width="40" src="{{user.imageUrl}}" /> -->
-	<insta-map [user]="user" [media]="mediaData"></insta-map>
+	<div class="map-container">
+		<insta-map [user]="user" [media]="mediaData"></insta-map>
+	</div>
 </div>
